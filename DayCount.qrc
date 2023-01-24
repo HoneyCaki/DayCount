@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/imgs">
+        <file>images/close.png</file>
+        <file>images/Pressed_close.png</file>
+        <file>images/Pressed_settings.png</file>
+        <file>images/settings.png</file>
+        <file>images/programICO.png</file>
+    </qresource>
+</RCC>
