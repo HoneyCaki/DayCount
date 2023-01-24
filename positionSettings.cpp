@@ -26,9 +26,10 @@ positionSettings::positionSettings(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	this->setAttribute(Qt::WA_QuitOnClose, false);
 	this->setWindowIcon(QIcon(":/imgs/images/programICO.png"));
 	this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
-	this->setWindowTitle("文字位置调整 [关闭则自动保存]");
+	this->setWindowTitle(QStringLiteral("文字位置调整 [关闭则自动保存]"));
 	if (count_ > 0)
 		count_ = 0;
 	QString imagePath, imagePath2, imagePath3, imagePath4,
@@ -52,7 +53,7 @@ positionSettings::positionSettings(QWidget *parent)
 		imagePath = config->value("Background/Image_Path").toString();
 	}
 	imgPTH = imagePath;
-	//
+
 	tipWord = config->value("Tip_Word").toString();
 	targetDate = config->value("Target_Date").toString();
 
@@ -170,7 +171,6 @@ void positionSettings::paintEvent(QPaintEvent* e)
                //-----------事件过滤---------------------
 bool positionSettings::eventFilter(QObject* obj, QEvent* event)
 {
-	
 	QMouseEvent* e = static_cast<QMouseEvent*>(event);
 	const QPointF windowPT = e->windowPos();
 	QPoint cDayPos, tDayPos, tipPos, dayTipP, dayPos;
@@ -246,7 +246,7 @@ bool positionSettings::eventFilter(QObject* obj, QEvent* event)
 		configIni->setValue("Control_Position/Day_Text_Position_Y", dayTip->pos().y());
 		delete configIni;
 
-		QMessageBox::information(this, "信息", "保存成功，重启以应用设置");
+		QMessageBox::information(this, QStringLiteral("信息"), QStringLiteral("保存成功，重启以应用设置"));
 		count_++;
 	}
 	return QWidget::eventFilter(obj, event);

@@ -1,9 +1,15 @@
-﻿
-#include "DayCount.h"
-#include <QtWidgets/QApplication>
+﻿/*
+程序分辨率：483x440
+
+*/
 #ifdef Q_OS_WIN
 #pragma execution_character_set("utf-8")   //解决 VS编译器下中文乱码
 #endif
+#include "DayCount.h"
+#include <QtWidgets/QApplication>
+
+
+
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
@@ -13,7 +19,6 @@ int main(int argc, char *argv[])
 	w.setMaximumSize(QSize(483,440));
 	w.setWindowTitle("倒数日");
 	w.setWindowIcon(QIcon(":/imgs/images/programICO.png")); //程序图标
-	
 	w.show();
 	return a.exec();
 }

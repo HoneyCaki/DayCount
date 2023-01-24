@@ -24,6 +24,7 @@ settings::settings(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	this->setAttribute(Qt::WA_QuitOnClose, false);
 	this->setWindowIcon(QIcon(":/imgs/images/programICO.png"));
 	this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint); //设置不可被移动
 	this->setWindowTitle("设置");

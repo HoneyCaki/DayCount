@@ -1,4 +1,18 @@
-﻿#ifdef Q_OS_WIN
+﻿/**
+* Program Name: DayCount 倒数日
+* Version: 1.0
+* Author: 茶姬不是受i
+* Bilibili Link: https://space.bilibili.com/524676261
+* Notice: 该程序为个人练手项目，现已开源至github供各位交流借鉴学习，若要改码发布，
+*         请注明原作者和原链接，谢绝售卖程序。
+* Tips: · 程序目前已知bug较多，部分交互对用户使用不友好，不建议日常使用
+*		· 程序在某些情况下存在性能问题，详情在README.md
+*		· 程序更新周期较长（学生党）
+*		· 代码中部分功能实现比较下饭
+*/
+
+
+#ifdef Q_OS_WIN
 #pragma execution_character_set("utf-8")   //解决中文乱码
 #endif
 
@@ -14,20 +28,23 @@
 #include <qaction.h>
 #include <qmenu.h>
 
-
-
-
 QString inifilePath = "./config/config.ini"; //默认配置文件位置
 
 QString imagePath;
 
 int count = 0;
 
+bool mouseEnter;
+
 DayCount::DayCount(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	
+	//---------属性---------
+	this->setAttribute(Qt::WA_TranslucentBackground);
+	this->setAttribute(Qt::WA_QuitOnClose, true);//当关闭主窗口时其它窗口一起关闭
+	this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
+	//-------------------------
 	QString // 注：tar / cur = target / current
 		tipWord, targetDate,
 		tipFontColor, tipFontStyle,
@@ -39,8 +56,6 @@ DayCount::DayCount(QWidget *parent)
 		dayFontSize, dayFontBoldLevel,
 		curDayFontSize, curDayFontBoldLevel,
 		tarDayFontSize, tarDayFontBoldLevel;
-
-
 
 	dayText = ui.dayText->text();
 	//获取窗口长高
@@ -64,16 +79,10 @@ DayCount::DayCount(QWidget *parent)
 		set->show(); //弹出设置窗口
 		}); 
 
-	//这里有BUG**********
-	//============================TODO========================
+	//退出
 	connect(actExit, &QAction::triggered, [this] {
-
-		//settings * set = new settings;
-		this->close(); 
-		}); //退出
-
-
-
+		this->close();
+		}); 
 
 	//添加菜单
 	QMenu* m = new QMenu(this);
@@ -120,9 +129,7 @@ DayCount::DayCount(QWidget *parent)
 	settingsButton->raise();
 	settingsButton->hide();
 	
-	//---------窗口属性---------
-	this->setAttribute(Qt::WA_TranslucentBackground);
-	this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
+
 	//---------配置文件---------
 
 	QSettings* configIni = new QSettings(inifilePath, QSettings::IniFormat);
@@ -215,7 +222,7 @@ DayCount::DayCount(QWidget *parent)
 	//**字体颜色**
 	//以下代码片段简介：通过用户给定的xxx,xxx,xxx颜色字符串值，通过split函数进行拆分，
 	//				 并将各个RGB值存储到QStringList中
-	//更新：后面考虑改为色板调整，以下代码片段仅供参考
+	//更新：			 后面考虑改为色板调整，以下代码片段仅供参考
 	QStringList tipColor_ = tipFontColor.split(",");
 	QStringList dayColor_ = dayFontColor.split(",");
 	QStringList curDayColor_ = curDayFontColor.split(",");
@@ -268,9 +275,9 @@ DayCount::DayCount(QWidget *parent)
 		});
 }
 
-//鼠标进入事件
 void DayCount::enterEvent(QEvent*)
 {
+	mouseEnter = true;
 	closeButton->show();
 	settingsButton->show();
 }
@@ -278,8 +285,13 @@ void DayCount::enterEvent(QEvent*)
 //鼠标离开事件
 void DayCount::leaveEvent(QEvent*)
 {
-	closeButton->hide();
-	settingsButton->hide();
+	if (mouseEnter) 
+	{
+		//bug
+		_sleep(500);
+		closeButton->hide();
+		settingsButton->hide();	
+	}
 }
 
 //绘图事件
