@@ -11,7 +11,6 @@
 *		· 代码中部分功能实现比较下饭
 */
 
-
 #ifdef Q_OS_WIN
 #pragma execution_character_set("utf-8")   //解决中文乱码
 #endif
