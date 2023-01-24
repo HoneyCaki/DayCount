@@ -158,6 +158,7 @@ positionSettings::positionSettings(QWidget *parent)
 
 }
 
+
 positionSettings::~positionSettings()
 {
 }

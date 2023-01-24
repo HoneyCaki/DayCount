@@ -23,6 +23,7 @@
 settings::settings(QWidget *parent)
 	: QWidget(parent)
 {
+
 	ui.setupUi(this);
 	this->setAttribute(Qt::WA_QuitOnClose, false);
 	this->setWindowIcon(QIcon(":/imgs/images/programICO.png"));
